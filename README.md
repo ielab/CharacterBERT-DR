@@ -4,6 +4,9 @@ The offcial repository for [CharacterBERT and Self-Teaching for Improving the Ro
 
 
 ## Installation
+Our code is developed based on [Tevatron](https://github.com/texttron/tevatron) DR training toolkit (v0.0.1).
+
+First clone this repository and then install with pip:
 `pip install --editable .`
 
 > Note: The current code base has been tested with, `torch==1.8.1`, `faiss-cpu==1.7.1`, `transformers==4.9.2`, `datasets==1.11.0`, `textattack=0.3.4`
