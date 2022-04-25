@@ -9,7 +9,7 @@ args = parser.parse_args()
 
 # To set up ms checker api
 # follow https://docs.microsoft.com/en-us/azure/cognitive-services/bing-spell-check/overview
-api_key = "3ded996efae74cd3b22e0306930998d5"
+api_key = "your api key"
 endpoint = "https://api.bing.microsoft.com/v7.0/SpellCheck"
 params = {
     'mkt':'en-us',
