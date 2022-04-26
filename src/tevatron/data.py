@@ -220,14 +220,21 @@ class EncodeDataset(Dataset):
         if isinstance(path_to_json, datasets.Dataset):
             self.encode_data = path_to_json
         else:
-            self.encode_data = datasets.load_dataset(
-                'json',
-                data_files=path_to_json,
-                cache_dir=model_args.cache_dir
-            )['train']
+            # self.encode_data = datasets.load_dataset(
+            #     'json',
+            #     data_files=path_to_json,
+            #     cache_dir=model_args.cache_dir
+            # )['train']
+            self.encode_data = []
+            for path in path_to_json:
+                with open(path, 'r') as f:
+                    for line in f:
+                        text_id, text = line.strip().split('\t')
+                        self.encode_data.append({'text_id': text_id, 'text': text})
         self.tok = tokenizer
         self.max_len = max_len
         self.model_args = model_args
+        self.decode = True
 
     def _character_bert_tokenize(self, text, decode=False):
         if decode:  # lazy fix for now
@@ -244,7 +251,7 @@ class EncodeDataset(Dataset):
         text_id, text = (self.encode_data[item][f] for f in self.input_keys)
 
         if self.model_args.character_query_encoder:
-            encoded_text = self._character_bert_tokenize(text, decode=True)
+            encoded_text = self._character_bert_tokenize(text, self.decode)
         else:
             encoded_text = self.tok.encode_plus(
                 text,

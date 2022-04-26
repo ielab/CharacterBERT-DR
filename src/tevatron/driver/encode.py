@@ -65,8 +65,11 @@ def main():
     text_max_length = data_args.q_max_len if data_args.encode_is_qry else data_args.p_max_len
     if data_args.encode_in_path:
         encode_dataset = EncodeDataset(data_args.encode_in_path, tokenizer, max_len=text_max_length, model_args=model_args)
-        encode_dataset.encode_data = encode_dataset.encode_data \
-            .shard(data_args.encode_num_shard, data_args.encode_shard_index)
+        if not data_args.encode_is_qry:
+            encode_dataset.encode_data = encode_dataset.encode_data \
+                .shard(data_args.encode_num_shard, data_args.encode_shard_index)
+        else:
+            encode_dataset.decode = False
     else:
         encode_dataset = datasets.load_dataset(data_args.dataset_name,
                                                data_args.dataset_language, cache_dir=model_args.cache_dir)[data_args.dataset_split] \

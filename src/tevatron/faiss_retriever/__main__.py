@@ -5,7 +5,6 @@ from argparse import ArgumentParser
 from itertools import chain
 from tqdm import tqdm
 import faiss
-# from codecarbon import EmissionsTracker
 
 from .retriever import BaseFaissIPRetriever
 from .reducer import write_ranking
@@ -56,18 +55,12 @@ def main():
         retriever.add(p_reps.float().numpy())
         look_up += p_lookup
 
-    res = faiss.StandardGpuResources()
-    retriever.index = faiss.index_cpu_to_gpu(res, 0, retriever.index)
-
     q_reps, q_lookup = torch.load(args.query_reps)
 
     q_reps = q_reps.float().numpy()
     logger.info('Index Search Start')
-    # tracker = EmissionsTracker(project_name=args.run_name)
 
-    # tracker.start()
     all_scores, psg_indices = search_queries(retriever, q_reps, look_up, args)
-    # tracker.stop()
 
     logger.info('Index Search Finished')
 
