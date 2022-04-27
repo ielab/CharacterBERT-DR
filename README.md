@@ -17,13 +17,7 @@ First clone this repository and then install with pip:
 All the queries and qrels used in our paper are in the `/data` folder.
 
 ### Download CharacterBERT
-Install google drive download tool: `pip install gdown`
-
-Download [CharacterBERT](https://github.com/helboukkouri/character-bert/tree/0c1f5c2622950988833a9d95e29bc26864298592#pre-trained-models) trained with general domain:
-
-`gdown https://docs.google.com/uc?id=11-kSfIwSWrPno6A4VuNFWuQVYD8Bg_aZ`
-
-`tar -xf general_character_bert.tar.xz`
+Download [CharacterBERT](https://github.com/helboukkouri/character-bert/tree/0c1f5c2622950988833a9d95e29bc26864298592#pre-trained-models) trained with general domain with this [link](https://docs.google.com/uc?id=11-kSfIwSWrPno6A4VuNFWuQVYD8Bg_aZ).
 
 ## Train
 
@@ -127,3 +121,14 @@ We use trec_eval to evaluate the results:
 ```
 trec_eval -l 2 -m ndcg_cut.10 -m map -m recip_rank data/dl-typo/qrels.txt character_bert_st_dltypo_typo_rank.txt.trec
 ```
+
+If you use our provided `CharacterBERT-DR + ST` checkpoint, you will get:
+
+```
+map                     all     0.3483
+recip_rank              all     0.6154
+ndcg_cut_10             all     0.4730
+```
+
+We note that if you train the model by yourself, you may get slightly different results due to the randomness of dataloader
+and Tevatron self-contained msmarco-passage training dataset has been updated.
