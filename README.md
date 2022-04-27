@@ -92,7 +92,7 @@ python -m tevatron.driver.encode \
   --passage_field_separator [SEP]
 done
 ```
-
+If you are using our provided model checkpoints, change `--model_name_or_path` to the downloaded model path.
 If you running inference with standard BERT, remove `--character_query_encoder True` argument.
 
 ### Retrieval
