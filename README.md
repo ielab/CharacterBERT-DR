@@ -25,16 +25,16 @@ Download [CharacterBERT](https://github.com/helboukkouri/character-bert/tree/0c1
 
 `tar -xf general_character_bert.tar.xz`
 
-
 ## Train
 
-### CharacterBERT + ST training
+### CharacterBERT-DR + ST training
 ```
 python -m tevatron.driver.train \
 --model_name_or_path bert-base-uncased \
 --character_bert_path ./general_character_bert \
---output_dir model_msmarco_characterbert \
---save_steps 20000 \
+--output_dir model_msmarco_characterbert_st \
+--passage_field_separator [SEP] \
+--save_steps 40000 \
 --dataset_name Tevatron/msmarco-passage \
 --fp16 \
 --per_device_train_batch_size 16 \
@@ -45,4 +45,85 @@ python -m tevatron.driver.train \
 --logging_steps 150 \
 --character_query_encoder True \
 --self_teaching True
+```
+If you want to do typo augmentation training introduced in our previous [paper](https://arxiv.org/pdf/2108.12139.pdf).
+Replace `--self_teaching True` with `--typo_augmentation True`.
+
+If you want to train a standard BERT DR intead of CharacterBERT DR, remove `--character_bert_path` and `--character_query_encoder` arguments.
+
+If you do not want to train the model, we provide our trained model checkpoints for you to download:
+
+| Model                  | Google drive     |
+|------------------------|------------------|
+| StandardBERT-DR        | available soon   |
+| StandardBERT-DR + Aug  | available soon   |
+| StandardBERT-DR + ST   | available soon   |
+| CharacterBERT-DR       | available soon   |
+| CharacterBERT-DR + Aug | available soon   |
+| CharacterBERT-DR + ST  | available soon   |
+
+## Inference
+
+### Encode queries and corpus
+After you have the trained model, you can run the following command to encode queries and corpus into dense vectors:
+
+```
+mkdir msmarco_charcterbert_st_embs
+# encode query
+python -m tevatron.driver.encode \
+  --output_dir=temp \
+  --model_name_or_path model_msmarco_characterbert_st/checkpoint-final \
+  --fp16 \
+  --per_device_eval_batch_size 128 \
+  --encode_in_path data/dl-typo/query.typo.tsv \
+  --encoded_save_path msmarco_charcterbert_st_embs/query_dltypo_typo_emb.pkl \
+  --q_max_len 32 \
+  --encode_is_qry \
+  --character_query_encoder True
+
+
+# encode corpus
+for s in $(seq -f "%02g" 0 19)
+do
+python -m tevatron.driver.encode \
+  --output_dir=temp \
+  --model_name_or_path model_msmarco_characterbert_st/checkpoint-final \
+  --fp16 \
+  --per_device_eval_batch_size 128 \
+  --p_max_len 128 \
+  --dataset_name Tevatron/msmarco-passage-corpus \
+  --encoded_save_path model_msmarco_characterbert_st/corpus_emb.${s}.pkl \
+  --encode_num_shard 20 \
+  --encode_shard_index ${s} \
+  --cache_dir cache \
+  --character_query_encoder True \
+  --passage_field_separator [SEP]
+done
+```
+
+If you running inference with standard BERT, remove `--character_query_encoder True` argument.
+
+### Retrieval
+Run the following commands to generate ranking file and convert it to TREC format:
+
+```
+python -m tevatron.faiss_retriever \
+--query_reps model_msmarco_characterbert_st/query_dltypo_typo_emb.pkl \
+--passage_reps model_msmarco_characterbert_st/'corpus_emb.*.pkl' \
+--depth 1000 \
+--batch_size -1 \
+--save_text \
+--save_ranking_to character_bert_st_dltypo_typo_rank.txt
+
+
+python -m tevatron.utils.format.convert_result_to_trec \
+              --input character_bert_st_dltypo_typo_rank.txt \
+              --output character_bert_st_dltypo_typo_rank.txt.trec
+```
+
+### Evaluation
+We use trec_eval to evaluate the results:
+
+```
+trec_eval -l 2 -m ndcg_cut.10 -m map -m recip_rank data/dl-typo/qrels.txt character_bert_st_dltypo_typo_rank.txt.trec
 ```
