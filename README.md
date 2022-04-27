@@ -1,7 +1,5 @@
 # CharacterBERT-DR
 The offcial repository for [CharacterBERT and Self-Teaching for Improving the Robustness of Dense Retrievers on Queries with Typos](https://arxiv.org/pdf/2204.00716.pdf), Shengyao Zhuang and Guido Zuccon, SIGIR2022
-> Note: this repository is in refactoring.
-
 
 ## Installation
 Our code is developed based on [Tevatron](https://github.com/texttron/tevatron) DR training toolkit (v0.0.1).
@@ -47,14 +45,14 @@ If you want to train a standard BERT DR intead of CharacterBERT DR, remove `--ch
 
 If you do not want to train the model, we provide our trained model checkpoints for you to download:
 
-| Model                  | Google drive     |
-|------------------------|------------------|
-| StandardBERT-DR        | available soon   |
-| StandardBERT-DR + Aug  | available soon   |
-| StandardBERT-DR + ST   | available soon   |
-| CharacterBERT-DR       | available soon   |
-| CharacterBERT-DR + Aug | available soon   |
-| CharacterBERT-DR + ST  | available soon   |
+| Model Checkpoints                                                                                            | 
+|--------------------------------------------------------------------------------------------------------------|
+| [StandardBERT-DR](https://drive.google.com/file/d/1dhv1429rZpLofH5ksPp9o_VYVBj5RAjE/view?usp=sharing)        |
+| [StandardBERT-DR + Aug](https://drive.google.com/file/d/1ctW2X5FaDFyp2slqzxi2oI9BSy2VQwiJ/view?usp=sharing)  |
+| [StandardBERT-DR + ST](https://drive.google.com/file/d/1HQ0HMxj9y5-ouLxMACHgsQs-7vc1G_t3/view?usp=sharing)   |
+| [CharacterBERT-DR](https://drive.google.com/file/d/1UaltmRpSxmeB8lJx51MCvJIpYcDlp-XG/view?usp=sharing)       |
+| [CharacterBERT-DR + Aug](https://drive.google.com/file/d/1tG6seQ_ZpO9Q8U72VL6ig68s1W5D-TaF/view?usp=sharing) |
+| [CharacterBERT-DR + ST](https://drive.google.com/file/d/1CJLJbPEWhwq8WtVG-rxmtlWg6IG5Esai/view?usp=sharing)  |
 
 ## Inference
 
