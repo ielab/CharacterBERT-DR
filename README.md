@@ -1,5 +1,9 @@
 # CharacterBERT-DR
+
+![characterbert+st](characterbert+st.jpeg)
+
 The offcial repository for [CharacterBERT and Self-Teaching for Improving the Robustness of Dense Retrievers on Queries with Typos](https://arxiv.org/pdf/2204.00716.pdf), Shengyao Zhuang and Guido Zuccon, SIGIR2022
+
 
 ## Installation
 Our code is developed based on [Tevatron](https://github.com/texttron/tevatron) DR training toolkit (v0.0.1).
