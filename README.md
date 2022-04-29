@@ -84,7 +84,7 @@ python -m tevatron.driver.encode \
   --per_device_eval_batch_size 128 \
   --p_max_len 128 \
   --dataset_name Tevatron/msmarco-passage-corpus \
-  --encoded_save_path model_msmarco_characterbert_st/corpus_emb.${s}.pkl \
+  --encoded_save_path msmarco_charcterbert_st_embs/corpus_emb.${s}.pkl \
   --encode_num_shard 20 \
   --encode_shard_index ${s} \
   --cache_dir cache \
@@ -100,8 +100,8 @@ Run the following commands to generate ranking file and convert it to TREC forma
 
 ```
 python -m tevatron.faiss_retriever \
---query_reps model_msmarco_characterbert_st/query_dltypo_typo_emb.pkl \
---passage_reps model_msmarco_characterbert_st/'corpus_emb.*.pkl' \
+--query_reps msmarco_charcterbert_st_embs/query_dltypo_typo_emb.pkl \
+--passage_reps msmarco_charcterbert_st_embs/'corpus_emb.*.pkl' \
 --depth 1000 \
 --batch_size -1 \
 --save_text \
