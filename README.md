@@ -43,8 +43,7 @@ python -m tevatron.driver.train \
 --character_query_encoder True \
 --self_teaching True
 ```
-If you want to do typo augmentation training introduced in our previous [paper](https://arxiv.org/pdf/2108.12139.pdf).
-Replace `--self_teaching True` with `--typo_augmentation True`.
+If you want to do typo augmentation training introduced in our previous [paper](https://arxiv.org/pdf/2108.12139.pdf), replace `--self_teaching True` with `--typo_augmentation True`.
 
 If you want to train a standard BERT DR intead of CharacterBERT DR, remove `--character_bert_path` and `--character_query_encoder` arguments.
 
@@ -60,6 +59,8 @@ If you do not want to train the model, we provide our trained model checkpoints 
 | [CharacterBERT-DR + ST](https://drive.google.com/file/d/1CJLJbPEWhwq8WtVG-rxmtlWg6IG5Esai/view?usp=sharing)  |
 
 ## Inference
+
+In this example, we will do inference with our newly created DL-typo dataset, if you want to do inference with other datasets such as MS MARCO, change the query file to others in the `/data` folder.
 
 ### Encode queries and corpus
 After you have the trained model, you can run the following command to encode queries and corpus into dense vectors:
