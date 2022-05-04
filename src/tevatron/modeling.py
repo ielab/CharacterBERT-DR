@@ -468,8 +468,9 @@ class DenseModelForInference(DenseModel):
         )
         return model
 
+    
+# From line 472 to 1018 is modeling CharacterBERT model. Copy and pasted from https://github.com/helboukkouri/character-bert/tree/main/modeling
 PADDING_VALUE = 0
-
 
 def _make_bos_eos(
         character: int,
@@ -512,7 +513,6 @@ def pad_sequence_to_length(
     return padded_sequence
 
 
-# From line 516 to 1018 is modeling CharacterBERT model. Copy and pasted from https://github.com/helboukkouri/character-bert/tree/main/modeling
 class CharacterMapper:
     """
     Maps individual tokens to sequences of character ids.
